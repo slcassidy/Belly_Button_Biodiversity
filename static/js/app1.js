@@ -51,31 +51,31 @@ d3.json("data/samples.json").then((importedData) => {
     var us = Object.values(data.us);
 
 //horizontal Bar chart
-    Barchart(selected)  
-  //   // Trace1 for the lab Data
-  //   var trace1 = {
-  //     x: sample_val,
-  //     y: otu_ids,
-  //     // text: otu_lab,
-  //     // name: "Greek",
-  //     type: "bar",
-  //     orientation: "h"
-  //   };
+    // Barchart(selected)  
+    // Trace1 for the lab Data
+    var trace1 = {
+      x: sample_val,
+      y: otu_ids,
+      // text: otu_lab,
+      // name: "Greek",
+      type: "bar",
+      orientation: "h"
+    };
   
-  // //   // data
-  //   var chartData = [trace1];
+  //   // data
+    var chartData = [trace1];
   
-  // //   // Apply the group bar mode to the layout
-  //   var layout = {
-  //     title: "Top 10 Belly Button Bio Diversity sample values",
-  //     yaxis: { title: "OTU ids"},
-  //     xaxis: { title: "Sample Values"},
-  //     height: 500,
-  //     width: 500
-  //   };
+  //   // Apply the group bar mode to the layout
+    var layout = {
+      title: "Top 10 Belly Button Bio Diversity sample values",
+      yaxis: { title: "OTU ids"},
+      xaxis: { title: "Sample Values"},
+      height: 500,
+      width: 500
+    };
   
-  // //   // Render the plot to the div tag with id "plot"
-  //   Plotly.newPlot("bar", chartData, layout);
+  //   // Render the plot to the div tag with id "plot"
+    Plotly.newPlot("bar", chartData, layout);
 
     //Bubbles below
 // Next chart is bubble chart
@@ -107,34 +107,34 @@ Plotly.newPlot('bubble', bubbleChart, layout1);
   // On change to the DOM, call getData()
 d3.selectAll("#selDataset").on("change", getData);
 
-  function Barchart(selected){
+//   function Barchart(selected){
 
-    //horizontal Bar chart
-  //   // Trace1 for the lab Data
-  var trace1 = {
-    x: sample_val,
-    y: otu_ids,
-    // text: otu_lab,
-    // name: "Greek",
-    type: "bar",
-    orientation: "h"
-  };
+//     //horizontal Bar chart
+//   //   // Trace1 for the lab Data
+//   var trace1 = {
+//     x: sample_val,
+//     y: otu_ids,
+//     // text: otu_lab,
+//     // name: "Greek",
+//     type: "bar",
+//     orientation: "h"
+//   };
 
-//   // data
-  var chartData = [trace1];
+// //   // data
+//   var chartData = [trace1];
 
-//   // Apply the group bar mode to the layout
-  var layout = {
-    title: "Top 10 Belly Button Bio Diversity sample values",
-    yaxis: { title: "OTU ids"},
-    xaxis: { title: "Sample Values"},
-    height: 500,
-    width: 500
-  };
+// //   // Apply the group bar mode to the layout
+//   var layout = {
+//     title: "Top 10 Belly Button Bio Diversity sample values",
+//     yaxis: { title: "OTU ids"},
+//     xaxis: { title: "Sample Values"},
+//     height: 500,
+//     width: 500
+//   };
 
-//   // Render the plot to the div tag with id "plot"
-  Plotly.newPlot("bar", chartData, layout);
-  }
+// //   // Render the plot to the div tag with id "plot"
+//   Plotly.newPlot("bar", chartData, layout);
+//   }
 //check out code
 
 // function updatePlotly() {

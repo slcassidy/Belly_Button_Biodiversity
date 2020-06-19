@@ -10,8 +10,6 @@ d3.json("data/samples.json").then((importedData) => {
     var data = importedData.samples;
     // console.log(data)
 
-
-
     // console.log("***********metadata*******************")
     var meta = importedData.metadata;
     // console.log(meta)
@@ -19,7 +17,8 @@ d3.json("data/samples.json").then((importedData) => {
     //Put data in the drop-down list
     list(names)
 
-    // selected()
+    selected()
+    console.log(selected())
     // selected(getData())
     // selected()
     var check = getData()
@@ -31,13 +30,32 @@ d3.json("data/samples.json").then((importedData) => {
         }
 
     var samples_id = data.filter(filterData);
+    var meta_id = meta.filter(filterData);
     // console.log(samples_id)
+    
+    //Limit to 10
+    var sample_val10 = samples_id.map(row => row.sample_values.slice(0, 10)); 
+    // console.log('*********sample_val**************');
+    // console.log(sample_val);
+
+    var otu_ids_output10 = samples_id.map(row => row.otu_ids.slice(0, 10));
+    // console.log('*********sample_otu_ids_outputval**************');
+    // console.log(otu_ids_output);
+
+    var otu_lab10 = samples_id.map(row => row.otu_labels.slice(0, 10));
+
 
     //Call the bar chart
-    barChart(samples_id)
+    // barChart(samples_id);
+    // barChart(sample_val10, otu_ids_output10, otu_lab10);
+    barChart(sample_val10, otu_ids_output10);
 
-    // var data_id = data.id == getData()
-    // console.log(`Data from sample set ${data_id}`)
+    
+    //Call the bubble chart
+    bubbleChart(sample_val10, otu_ids_output10);
+
+    //demographic
+    demoInfo(meta_id);
 
 });
 
@@ -57,10 +75,10 @@ function list(dataNames){
 //Create a function to get the selected data
 // Update all of the plots any time that a new sample is selected.
 // On change to the DOM, call getData()
-// function selected(){
-    d3.selectAll("#selDataset").on("change", getData);
-    
-// }
+function selected(){
+    d3.selectAll("#selDataset").on("change", getData);  
+    return true;
+}
 
 
 function getData() {
@@ -78,27 +96,34 @@ function getData() {
 
 //Create a function to display the bar chart
 //Use data based on the selected data
-function barChart(barInfo){
-    console.log(`Barchart START`)
-    console.log(barInfo)
+// function barChart(barInfo){
+// function barChart(sample_val, otu_ids_output, otu_lab){
+function barChart(sample_val, otu_ids_output){   
+    // console.log(sample_val[0])
+    // console.log(otu_ids_output[0])
 
-    var sample_val = barInfo.map(row => row.sample_values.slice(0, 10)); 
-    // console.log('*********sample_val**************');
-    // console.log(sample_val);
+//************TESTING CODE START ****************/    
+    // console.log(`Barchart START`)
+    // console.log(barInfo)
 
-    var otu_ids_output = barInfo.map(row => row.otu_ids.slice(0, 10));
-    // console.log('*********sample_otu_ids_outputval**************');
-    // console.log(otu_ids_output);
+    // var sample_val = barInfo.map(row => row.sample_values.slice(0, 10)); 
+    // // console.log('*********sample_val**************');
+    // // console.log(sample_val);
 
-    var otu_lab = barInfo.map(row => row.otu_labels.slice(0, 10))
+    // var otu_ids_output = barInfo.map(row => row.otu_ids.slice(0, 10));
+    // // console.log('*********sample_otu_ids_outputval**************');
+    // // console.log(otu_ids_output);
+
+    // var otu_lab = barInfo.map(row => row.otu_labels.slice(0, 10))
     // console.log('*********otu_lab**************')
     // console.log(otu_lab);
+//************TESTING CODE END ****************/  
 
     //horizontal Bar chart
     //   // Trace1 for the lab Data
     var trace1 = {
-        x: sample_val,
-        y: otu_ids_output,
+        x: sample_val[0],
+        y: otu_ids_output[0],
         // text: otu_lab,
         // name: "Greek",
         type: "bar",
@@ -125,9 +150,61 @@ function barChart(barInfo){
 
 //Create a function to display the bubble chart
 //Use data based on the selected data
+function bubbleChart(sample_val, otu_ids){
 
+
+    var trace2 = {
+        x: otu_ids[0],
+        // x: [434, 234],
+        y: sample_val[0],
+        // y: [123, 121],
+        mode: 'markers',
+        // text: otu_lab,
+        marker: {
+          size: sample_val[0],
+        //   size: [123, 121],
+          color: otu_ids[0]
+        //   color:[434, 234],
+        }
+      };
+      
+      var bubbleChart = [trace2];
+      
+      var layout1 = {
+        title: 'Marker Size',
+        showlegend: false,
+        height: 600,
+        width: 1200
+      };
+      
+      Plotly.newPlot('bubble', bubbleChart, layout1);
+}
 
 //Create function to display the Demographic Info
+function demoInfo(dataNames){
+
+    console.log(dataNames)
+    d3.select("#sample-metadata").selectAll("div")
+    .data(dataNames)
+    .enter()
+    .append("div")
+    .style("font-size", "11px")
+    .html(function(d) {
+        return `AGE: ${d.age}` + '</br>'+
+            
+            `BBTYPE: ${d.bbtype}` + '</br>'+
+
+            `ETHNICITY: ${d.ethnicity}` + '</br>'+
+
+            `GENDER: ${d.gender}` + '</br>'+
+
+            `LOCATION: ${d.location}`
+            ;
+        // return d.bbtype;
+    });
+};
 
 
+
+init()
 //Display each key-value pair from the metadata JSON object somewhere on the page.
