@@ -1,65 +1,120 @@
 
 //Get data to be used
+// $(document).ready(function(){
+    
+// }
+
+function init() {
+    // initialisation stuff here
+    d3.json("data/samples.json").then((importedData) => {
+        console.log("***********names*******************")
+        var names = importedData.names;
+        // names = names.slice(0, 10);
+        // console.log(names)
+        
+        // console.log("***********samples*******************")
+        // var data = importedData.samples;
+        // // console.log(data)
+        //     //Limit to 10
+        // var sample_val = samples_id.map(row => row.sample_values); 
+        // // console.log('*********sample_val**************');
+        // // console.log(sample_val);
+
+        // var otu_ids_output = samples_id.map(row => row.otu_ids);
+        // // console.log('*********sample_otu_ids_outputval**************');
+        // // console.log(otu_ids_output);
+
+        // var otu_lab = samples_id.map(row => row.otu_labels);
+    
+        // console.log("***********metadata*******************")
+        // var meta = importedData.metadata;
+        // console.log(meta)
+    
+        //Put data in the drop-down list
+        list(names);
+        // bubbleChart(sample_val, otu_ids_output);
+
+        dataSelected(0,1);
+
+
+    
+
+    
+    });
+
+  }
+function dataSelected(check, test){
 d3.json("data/samples.json").then((importedData) => {
-    console.log("***********names*******************")
-    var names = importedData.names;
+    // console.log("***********names*******************")
+    // var names = importedData.names;
     // names = names.slice(0, 10);
     // console.log(names)
 
-    // console.log("***********samples*******************")
+    console.log("***********samples*******************")
     var data = importedData.samples;
-    // console.log(data)
+    console.log(data)
 
     // console.log("***********metadata*******************")
     var meta = importedData.metadata;
     // console.log(meta)
 
     //Put data in the drop-down list
-    list(names)
+    // list(names)
 
-    selected()
-    console.log(selected())
+    // selected()
+    // console.log(selected())
     // selected(getData())
     // selected()
-    var check = getData()
-    console.log(`Check information for selected item ${check}`)
+    // var check = getData()
+    // console.log(`Check information for selected item ${check}`)
+    if (test == 0){
+        console.log("selected page")
+        function filterData(data) {
+            return data.id == check;
+            }
+    
+        var samples_id = data.filter(filterData);
+    
+        // console.log(samples_id)
+        
+        //Limit to 10
+        var sample_val10 = samples_id.map(row => row.sample_values.slice(0, 10)); 
+        // console.log('*********sample_val**************');
+        // console.log(sample_val);
+    
+        var otu_ids_output10 = samples_id.map(row => row.otu_ids.slice(0, 10));
+        // console.log('*********sample_otu_ids_outputval**************');
+        // console.log(otu_ids_output);
+    
+        var otu_lab10 = samples_id.map(row => row.otu_labels.slice(0, 10));
+    
+    
+        //Call the bar chart
+        // barChart(samples_id);
+        // barChart(sample_val10, otu_ids_output10, otu_lab10);
+        barChart(sample_val10, otu_ids_output10);
+    
+        
+        //Call the bubble chart
+        bubbleChart(sample_val10, otu_ids_output10);
+    
+        //demographic
+        var meta_id = meta.filter(filterData);
+        demoInfo(meta_id);
+
+    }    
+     else console.log("intial page")
+        console.log("intial page2")
+    // }
+
 
     //slim down selection
-    function filterData(data) {
-        return data.id == check;
-        }
-
-    var samples_id = data.filter(filterData);
-    var meta_id = meta.filter(filterData);
-    // console.log(samples_id)
     
-    //Limit to 10
-    var sample_val10 = samples_id.map(row => row.sample_values.slice(0, 10)); 
-    // console.log('*********sample_val**************');
-    // console.log(sample_val);
-
-    var otu_ids_output10 = samples_id.map(row => row.otu_ids.slice(0, 10));
-    // console.log('*********sample_otu_ids_outputval**************');
-    // console.log(otu_ids_output);
-
-    var otu_lab10 = samples_id.map(row => row.otu_labels.slice(0, 10));
-
-
-    //Call the bar chart
-    // barChart(samples_id);
-    // barChart(sample_val10, otu_ids_output10, otu_lab10);
-    barChart(sample_val10, otu_ids_output10);
-
-    
-    //Call the bubble chart
-    bubbleChart(sample_val10, otu_ids_output10);
-
-    //demographic
-    demoInfo(meta_id);
 
 });
 
-console.log(`${data}`)
+};
+
 //Create Drop-down list
 function list(dataNames){
     //Create the drop-down list
@@ -76,14 +131,26 @@ function list(dataNames){
 // Update all of the plots any time that a new sample is selected.
 // On change to the DOM, call getData()
 function selected(){
-    d3.selectAll("#selDataset").on("change", getData);  
-    return true;
+    d3.selectAll("#selDataset").on("change", getData); 
+    var check = getData()
+    return check; 
+
 }
+
+d3.selectAll("#selDataset").on("click", function() {
+
+    console.log("testing");
+    var check = selected();
+    console.log(`click operator ${check}`);
+    dataSelected(check, 0);
+
+    // return true;
+});
 
 
 function getData() {
     //Get the field selected
-    console.log("Clicked function works!!")
+    // console.log("Clicked function works!!")
     // Use D3 to select the dropdown menu
     var dropdownMenu = d3.select("#selDataset");
     var dataset = dropdownMenu.node().value;
@@ -139,7 +206,7 @@ function barChart(sample_val, otu_ids_output){
         yaxis: { title: "OTU ids"},
         xaxis: { title: "Sample Values"},
         height: 500,
-        width: 500
+        width: 800,
     };
 
     //   // Render the plot to the div tag with id "plot"
