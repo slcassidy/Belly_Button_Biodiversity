@@ -1,43 +1,17 @@
 
-//Get data to be used
-// $(document).ready(function(){
-    
-// }
 
 function init() {
     // initialisation stuff here
     d3.json("data/samples.json").then((importedData) => {
         // console.log("***********names*******************")   
         var names = importedData.names;
-        // names = names.slice(0, 10);
-        // console.log(names)
-        
-        // console.log("***********samples*******************")
-        // var data = importedData.samples;
-        // // console.log(data)
-        //     //Limit to 10
-        // var sample_val = samples_id.map(row => row.sample_values); 
-        // // console.log('*********sample_val**************');
-        // // console.log(sample_val);
 
-        // var otu_ids_output = samples_id.map(row => row.otu_ids);
-        // // console.log('*********sample_otu_ids_outputval**************');
-        // // console.log(otu_ids_output);
-
-        // var otu_lab = samples_id.map(row => row.otu_labels);
-    
-        // console.log("***********metadata*******************")
-        // var meta = importedData.metadata;
-        // console.log(meta)
-    
         //Put data in the drop-down list
         list(names);
         // bubbleChart(sample_val, otu_ids_output);
 
         dataSelected(0,1);
-
-
-    
+  
 
     
     });
@@ -58,15 +32,7 @@ d3.json("data/samples.json").then((importedData) => {
     var meta = importedData.metadata;
     // console.log(meta)
 
-    //Put data in the drop-down list
-    // list(names)
 
-    // selected()
-    // console.log(selected())
-    // selected(getData())
-    // selected()
-    // var check = getData()
-    // console.log(`Check information for selected item ${check}`)
     if (test == 0){
         console.log("selected page")
 
@@ -103,7 +69,7 @@ d3.json("data/samples.json").then((importedData) => {
     
         
         //Call the bubble chart
-        bubbleChart(sample_val10, otu_ids_output10);
+        bubbleChart(sample_val10, otu_ids_output10, otu_lab10);
             
 
         //demographic
@@ -126,7 +92,7 @@ d3.json("data/samples.json").then((importedData) => {
         var otu_lab_ALL = data.map(row => row.otu_labels);
 
         //Call the bubble chart
-        bubbleChart(sample_val_ALL, otu_ids_output_ALL);
+        bubbleChart(sample_val_ALL, otu_ids_output_ALL, otu_lab_ALL);
 
         function filterData(data) {
             return data.id;
@@ -219,26 +185,6 @@ function getData() {
 // function barChart(barInfo){
 // function barChart(sample_val, otu_ids_output, otu_lab){
 function barChart(sample_val, otu_ids_output){   
-    // console.log(sample_val[0])
-    // console.log(otu_ids_output[0])
-
-//************TESTING CODE START ****************/    
-    // console.log(`Barchart START`)
-    // console.log(barInfo)
-
-    // var sample_val = barInfo.map(row => row.sample_values.slice(0, 10)); 
-    // // console.log('*********sample_val**************');
-    // // console.log(sample_val);
-
-    // var otu_ids_output = barInfo.map(row => row.otu_ids.slice(0, 10));
-    // // console.log('*********sample_otu_ids_outputval**************');
-    // // console.log(otu_ids_output);
-
-    // var otu_lab = barInfo.map(row => row.otu_labels.slice(0, 10))
-    // console.log('*********otu_lab**************')
-    // console.log(otu_lab);
-//************TESTING CODE END ****************/  
-
     //horizontal Bar chart
     //   // Trace1 for the lab Data
     var trace1 = {
@@ -270,7 +216,7 @@ function barChart(sample_val, otu_ids_output){
 
 //Create a function to display the bubble chart
 //Use data based on the selected data
-function bubbleChart(sample_val, otu_ids){
+function bubbleChart(sample_val, otu_ids, label){
     console.log("bubble chart")
 
     var trace2 = {
@@ -283,6 +229,7 @@ function bubbleChart(sample_val, otu_ids){
         marker: {
           size: sample_val[0],
         //   size: [123, 121],
+          hover_name=label[0],
           color: otu_ids[0]
         //   color:[434, 234],
         }
