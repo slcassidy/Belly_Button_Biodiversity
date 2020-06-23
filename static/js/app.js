@@ -7,7 +7,7 @@
 function init() {
     // initialisation stuff here
     d3.json("data/samples.json").then((importedData) => {
-        console.log("***********names*******************")
+        // console.log("***********names*******************")   
         var names = importedData.names;
         // names = names.slice(0, 10);
         // console.log(names)
@@ -50,9 +50,9 @@ d3.json("data/samples.json").then((importedData) => {
     // names = names.slice(0, 10);
     // console.log(names)
 
-    console.log("***********samples*******************")
+    // console.log("***********samples*******************")
     var data = importedData.samples;
-    console.log(data)
+    // console.log(data)
 
     // console.log("***********metadata*******************")
     var meta = importedData.metadata;
@@ -69,6 +69,13 @@ d3.json("data/samples.json").then((importedData) => {
     // console.log(`Check information for selected item ${check}`)
     if (test == 0){
         console.log("selected page")
+
+        //remove the previous data        
+        var list_remove = d3.select(".demograph");
+        console.log(list_remove)
+        // // remove any children from the list to
+        list_remove.html("");
+
         function filterData(data) {
             return data.id == check;
             }
@@ -97,14 +104,60 @@ d3.json("data/samples.json").then((importedData) => {
         
         //Call the bubble chart
         bubbleChart(sample_val10, otu_ids_output10);
-    
+            
+
         //demographic
         var meta_id = meta.filter(filterData);
         demoInfo(meta_id);
 
     }    
-     else console.log("intial page")
-        console.log("intial page2")
+     else{ 
+        console.log("intial page")
+
+        //All the data separated out
+        var sample_val_ALL = data.map(row => row.sample_values); 
+        // console.log('*********sample_val_ALL**************');
+        // console.log(sample_val_ALL);
+    
+        var otu_ids_output_ALL = data.map(row => row.otu_ids);
+        // console.log('*********sample_otu_ids_outputval**************');
+        // console.log(otu_ids_output_ALL);
+    
+        var otu_lab_ALL = data.map(row => row.otu_labels);
+
+        //Call the bubble chart
+        bubbleChart(sample_val_ALL, otu_ids_output_ALL);
+
+        function filterData(data) {
+            return data.id;
+            }
+
+        // var samples2 = data.filter(data[0]);
+        var data_data = data.filter(filterData)[0];
+        // var otu_ids_output_ALL = data.map(row => row.otu_ids);
+        // console.log('*********Filter first item**************');
+        // console.log(data_data)
+
+        //demographic
+        // var meta_id = "";
+        // demoInfo(meta_id);
+
+        //Limit to 10
+        var sample_val_int = data_data.sample_values.slice(0, 10); 
+        console.log('*********sample_val**************');
+        console.log(sample_val_int);
+        
+        var otu_ids_output_int = data_data.otu_ids.slice(0, 10);
+        console.log('*********sample_otu_ids_outputval**************');
+        console.log(otu_ids_output_int);
+    
+        // var otu_lab10 = data_data.map(row => row.otu_labels.slice(0, 10));
+
+
+
+        //Call the bar chart
+        barChart(sample_val_int, otu_ids_output_int);
+    }   
     // }
 
 
@@ -218,7 +271,7 @@ function barChart(sample_val, otu_ids_output){
 //Create a function to display the bubble chart
 //Use data based on the selected data
 function bubbleChart(sample_val, otu_ids){
-
+    console.log("bubble chart")
 
     var trace2 = {
         x: otu_ids[0],
@@ -238,7 +291,7 @@ function bubbleChart(sample_val, otu_ids){
       var bubbleChart = [trace2];
       
       var layout1 = {
-        title: 'Marker Size',
+        title: 'OTU ID Sample Sizes',
         showlegend: false,
         height: 600,
         width: 1200
@@ -249,14 +302,20 @@ function bubbleChart(sample_val, otu_ids){
 
 //Create function to display the Demographic Info
 function demoInfo(dataNames){
+    console.log("************DemoInfo************")
+    // // Then, select the unordered list element by class name
+
 
     console.log(dataNames)
     d3.select("#sample-metadata").selectAll("div")
     .data(dataNames)
     .enter()
     .append("div")
+    .classed("demograph", true)
     .style("font-size", "11px")
     .html(function(d) {
+        // console.log(` dataInfo in Function: ${d[0].location}`);
+        // console.log(` dataInfo in Function: ${d.age}`);
         return `AGE: ${d.age}` + '</br>'+
             
             `BBTYPE: ${d.bbtype}` + '</br>'+
@@ -267,7 +326,8 @@ function demoInfo(dataNames){
 
             `LOCATION: ${d.location}`
             ;
-        // return d.bbtype;
+        // return d.location;
+
     });
 };
 
