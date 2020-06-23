@@ -36,11 +36,7 @@ d3.json("data/samples.json").then((importedData) => {
     if (test == 0){
         console.log("selected page")
 
-        //remove the previous data        
-        // var list_remove = d3.select(".demograph");
-        // console.log(list_remove)
-        // // // remove any children from the list to
-        // list_remove.html("");
+
 
         function filterData(data) {
             return data.id == check;
@@ -49,6 +45,20 @@ d3.json("data/samples.json").then((importedData) => {
         var samples_id = data.filter(filterData);
     
         // console.log(samples_id)
+
+        //All the data separated out
+        var sample_val_ALL = samples_id.map(row => row.sample_values); 
+        // console.log('*********sample_val_ALL**************');
+        // console.log(sample_val_ALL);
+    
+        var otu_ids_output_ALL = samples_id.map(row => row.otu_ids);
+        // console.log('*********sample_otu_ids_outputval**************');
+        // console.log(otu_ids_output_ALL);
+    
+        var otu_lab_ALL = samples_id.map(row => row.otu_labels);
+        // console.log('*********sample_labels**************');
+        // console.log(otu_lab_ALL);
+        bubbleChart(sample_val_ALL, otu_ids_output_ALL, otu_lab_ALL);
         
         //Limit to 10
         var sample_val10 = samples_id.map(row => row.sample_values.slice(0, 10)); 
@@ -70,7 +80,7 @@ d3.json("data/samples.json").then((importedData) => {
     
         
         //Call the bubble chart
-        bubbleChart(sample_val10, otu_ids_output10, otu_lab10);
+        // bubbleChart(sample_val10, otu_ids_output10, otu_lab10);
             
 
         //demographic
@@ -91,8 +101,8 @@ d3.json("data/samples.json").then((importedData) => {
         // console.log(otu_ids_output_ALL);
     
         var otu_lab_ALL = data.map(row => row.otu_labels);
-        console.log('*********sample_labels**************');
-        console.log(otu_lab_ALL);
+        // console.log('*********sample_labels**************');
+        // console.log(otu_lab_ALL);
 
         //Call the bubble chart
         bubbleChart(sample_val_ALL, otu_ids_output_ALL, otu_lab_ALL);
@@ -161,10 +171,15 @@ function selected(){
 
 d3.selectAll("#selDataset").on("click", function() {
 
-    console.log("testing");
     var check = selected();
-    console.log(`click operator ${check}`);
+    // console.log(`click operator ${check}`);
     dataSelected(check, 0);
+
+    // // remove the previous data        
+    // var list_remove = d3.select(".demograph");
+    // console.log(list_remove)
+    // // // remove any children from the list to
+    // list_remove.html("");
 
     // return true;
 });
@@ -176,7 +191,7 @@ function getData() {
     // Use D3 to select the dropdown menu
     var dropdownMenu = d3.select("#selDataset");
     var dataset = dropdownMenu.node().value;
-    console.log(`Clicked on an item ${dataset}`)
+    // console.log(`Clicked on an item ${dataset}`)
     // var data_id = data.id == getData()
     // console.log(`Data from sample set ${data_id}`)
     return dataset
