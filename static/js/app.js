@@ -37,10 +37,10 @@ d3.json("data/samples.json").then((importedData) => {
         console.log("selected page")
 
         //remove the previous data        
-        var list_remove = d3.select(".demograph");
-        console.log(list_remove)
-        // // remove any children from the list to
-        list_remove.html("");
+        // var list_remove = d3.select(".demograph");
+        // console.log(list_remove)
+        // // // remove any children from the list to
+        // list_remove.html("");
 
         function filterData(data) {
             return data.id == check;
@@ -60,7 +60,8 @@ d3.json("data/samples.json").then((importedData) => {
         // console.log(otu_ids_output);
     
         var otu_lab10 = samples_id.map(row => row.otu_labels.slice(0, 10));
-    
+        // console.log('*********sample_otu_ids_outputval**************');
+        // console.log(otu_ids_output);    
     
         //Call the bar chart
         // barChart(samples_id);
@@ -90,6 +91,8 @@ d3.json("data/samples.json").then((importedData) => {
         // console.log(otu_ids_output_ALL);
     
         var otu_lab_ALL = data.map(row => row.otu_labels);
+        console.log('*********sample_labels**************');
+        console.log(otu_lab_ALL);
 
         //Call the bubble chart
         bubbleChart(sample_val_ALL, otu_ids_output_ALL, otu_lab_ALL);
@@ -110,12 +113,12 @@ d3.json("data/samples.json").then((importedData) => {
 
         //Limit to 10
         var sample_val_int = data_data.sample_values.slice(0, 10); 
-        console.log('*********sample_val**************');
-        console.log(sample_val_int);
+        // console.log('*********sample_val**************');
+        // console.log(sample_val_int);
         
         var otu_ids_output_int = data_data.otu_ids.slice(0, 10);
-        console.log('*********sample_otu_ids_outputval**************');
-        console.log(otu_ids_output_int);
+        // console.log('*********sample_otu_ids_outputval**************');
+        // console.log(otu_ids_output_int);
     
         // var otu_lab10 = data_data.map(row => row.otu_labels.slice(0, 10));
 
@@ -225,11 +228,11 @@ function bubbleChart(sample_val, otu_ids, label){
         y: sample_val[0],
         // y: [123, 121],
         mode: 'markers',
-        // text: otu_lab,
+        text: label[0],
         marker: {
           size: sample_val[0],
         //   size: [123, 121],
-          hover_name=label[0],
+        //   text: label[0],
           color: otu_ids[0]
         //   color:[434, 234],
         }
