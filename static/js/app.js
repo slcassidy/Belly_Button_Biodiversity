@@ -18,7 +18,8 @@ function init() {
     });
 
   }
-function dataSelected(check, test){
+// Check = selected value and page = intial page or item was selected
+function dataSelected(check, page){
 d3.json("data/samples.json").then((importedData) => {
     // console.log("***********names*******************")
     // var names = importedData.names;
@@ -67,7 +68,7 @@ d3.json("data/samples.json").then((importedData) => {
     demoInfo(meta_id);
 
 
-    if (test == 0){
+    if (page == 0){
         console.log("selected page")
 
         // function filterData(data) {
@@ -92,30 +93,6 @@ d3.json("data/samples.json").then((importedData) => {
         // console.log(otu_lab_ALL);
         bubbleChart(sample_val_ALL, otu_ids_output_ALL, otu_lab_ALL);
         
-        // //Limit to 10
-        // var sample_val10 = samples_id.map(row => row.sample_values.slice(0, 10)); 
-        // // console.log('*********sample_val**************');
-        // // console.log(sample_val);
-    
-        // var otu_ids_output10 = samples_id.map(row => row.otu_ids.slice(0, 10));
-        // // console.log('*********sample_otu_ids_outputval**************');
-        // // console.log(otu_ids_output);
-    
-        // var otu_lab10 = samples_id.map(row => row.otu_labels.slice(0, 10));
-        // // console.log('*********sample_otu_ids_outputval**************');
-        // // console.log(otu_ids_output);    
-    
-        // //Call the bar chart
-        // // barChart(samples_id);
-        // // barChart(sample_val10, otu_ids_output10, otu_lab10);
-        // barChart(sample_val10, otu_ids_output10, otu_lab10);
-    
-           
-
-        // //demographic
-        // var meta_id = meta.filter(filterData);
-        // demoInfo(meta_id);
-
     }    
      else{ 
         console.log("intial page")
@@ -136,45 +113,8 @@ d3.json("data/samples.json").then((importedData) => {
         //Call the bubble chart
         bubbleChart(sample_val_ALL, otu_ids_output_ALL, otu_lab_ALL);
 
-        // function filterData(data) {
-        //     return data.id == check;
-        //     }
-
-        // var samples2 = data.filter(data[0]);
-        // var data_data = data.filter(filterData) ;
-        // // var otu_ids_output_ALL = data.map(row => row.otu_ids);
-        // // console.log('*********Filter first item**************');
-        // // console.log(data_data)
-
-        // //demographic
-        // // var meta_id = "";
-        // // demoInfo(meta_id);
-        // //Limit to 10
-        // var sample_val_int = data_data.map(row => row.sample_values.slice(0, 10)); 
-        // // console.log('*********sample_val**************');
-        // // console.log(sample_val);
-    
-        // var otu_ids_output_int = data_data.map(row => row.otu_ids.slice(0, 10));
-        // // console.log('*********sample_otu_ids_outputval**************');
-        // // console.log(otu_ids_output);
-    
-        // var otu_lab_int = data_data.map(row => row.otu_labels.slice(0, 10));
-        // // console.log('*********sample_otu_ids_outputval**************');
-        // // console.log(otu_ids_output);    
-
-
-
-        // //Call the bar chart
-        // barChart(sample_val_int, otu_ids_output_int, otu_lab_int);
-
-        // //demographic
-        // var meta_id = meta.filter(filterData);
-        // demoInfo(meta_id);
     }   
-    // }
-    
 
-    //slim down selection
     
 
 });
