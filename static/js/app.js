@@ -3,16 +3,17 @@
 function init() {
     // initialisation stuff here
     d3.json("data/samples.json").then((importedData) => {
-        // console.log("***********names*******************")   
+        console.log("***********names*******************")   
         var names = importedData.names;
 
         //Put data in the drop-down list
         list(names);
         // bubbleChart(sample_val, otu_ids_output);
 
-        dataSelected(0,1);
-  
+        var firstName = names[0];
+        console.log(firstName);
 
+        dataSelected(firstName,1);
     
     });
 
@@ -32,15 +33,46 @@ d3.json("data/samples.json").then((importedData) => {
     var meta = importedData.metadata;
     // console.log(meta)
 
+    function filterData(data) {
+        return data.id == check;
+        }
+    var data_data = data.filter(filterData) ;
+    // var otu_ids_output_ALL = data.map(row => row.otu_ids);
+    // console.log('*********Filter first item**************');
+    // console.log(data_data)
+
+    //demographic
+    // var meta_id = "";
+    // demoInfo(meta_id);
+    //Limit to 10
+    var sample_val_int = data_data.map(row => row.sample_values.slice(0, 10)); 
+    // console.log('*********sample_val**************');
+    // console.log(sample_val);
+
+    var otu_ids_output_int = data_data.map(row => row.otu_ids.slice(0, 10));
+    // console.log('*********sample_otu_ids_outputval**************');
+    // console.log(otu_ids_output);
+
+    var otu_lab_int = data_data.map(row => row.otu_labels.slice(0, 10));
+    // console.log('*********sample_otu_ids_outputval**************');
+    // console.log(otu_ids_output);    
+
+
+
+    //Call the bar chart
+    barChart(sample_val_int, otu_ids_output_int, otu_lab_int);
+
+    //demographic
+    var meta_id = meta.filter(filterData);
+    demoInfo(meta_id);
+
 
     if (test == 0){
         console.log("selected page")
 
-
-
-        function filterData(data) {
-            return data.id == check;
-            }
+        // function filterData(data) {
+        //     return data.id == check;
+        //     }
     
         var samples_id = data.filter(filterData);
     
@@ -60,32 +92,29 @@ d3.json("data/samples.json").then((importedData) => {
         // console.log(otu_lab_ALL);
         bubbleChart(sample_val_ALL, otu_ids_output_ALL, otu_lab_ALL);
         
-        //Limit to 10
-        var sample_val10 = samples_id.map(row => row.sample_values.slice(0, 10)); 
-        // console.log('*********sample_val**************');
-        // console.log(sample_val);
+        // //Limit to 10
+        // var sample_val10 = samples_id.map(row => row.sample_values.slice(0, 10)); 
+        // // console.log('*********sample_val**************');
+        // // console.log(sample_val);
     
-        var otu_ids_output10 = samples_id.map(row => row.otu_ids.slice(0, 10));
-        // console.log('*********sample_otu_ids_outputval**************');
-        // console.log(otu_ids_output);
+        // var otu_ids_output10 = samples_id.map(row => row.otu_ids.slice(0, 10));
+        // // console.log('*********sample_otu_ids_outputval**************');
+        // // console.log(otu_ids_output);
     
-        var otu_lab10 = samples_id.map(row => row.otu_labels.slice(0, 10));
-        // console.log('*********sample_otu_ids_outputval**************');
-        // console.log(otu_ids_output);    
+        // var otu_lab10 = samples_id.map(row => row.otu_labels.slice(0, 10));
+        // // console.log('*********sample_otu_ids_outputval**************');
+        // // console.log(otu_ids_output);    
     
-        //Call the bar chart
-        // barChart(samples_id);
+        // //Call the bar chart
+        // // barChart(samples_id);
+        // // barChart(sample_val10, otu_ids_output10, otu_lab10);
         // barChart(sample_val10, otu_ids_output10, otu_lab10);
-        barChart(sample_val10, otu_ids_output10);
     
-        
-        //Call the bubble chart
-        // bubbleChart(sample_val10, otu_ids_output10, otu_lab10);
-            
+           
 
-        //demographic
-        var meta_id = meta.filter(filterData);
-        demoInfo(meta_id);
+        // //demographic
+        // var meta_id = meta.filter(filterData);
+        // demoInfo(meta_id);
 
     }    
      else{ 
@@ -107,38 +136,43 @@ d3.json("data/samples.json").then((importedData) => {
         //Call the bubble chart
         bubbleChart(sample_val_ALL, otu_ids_output_ALL, otu_lab_ALL);
 
-        function filterData(data) {
-            return data.id;
-            }
+        // function filterData(data) {
+        //     return data.id == check;
+        //     }
 
         // var samples2 = data.filter(data[0]);
-        var data_data = data.filter(filterData)[0];
-        // var otu_ids_output_ALL = data.map(row => row.otu_ids);
-        // console.log('*********Filter first item**************');
-        // console.log(data_data)
+        // var data_data = data.filter(filterData) ;
+        // // var otu_ids_output_ALL = data.map(row => row.otu_ids);
+        // // console.log('*********Filter first item**************');
+        // // console.log(data_data)
 
-        //demographic
-        // var meta_id = "";
-        // demoInfo(meta_id);
-
-        //Limit to 10
-        var sample_val_int = data_data.sample_values.slice(0, 10); 
-        // console.log('*********sample_val**************');
-        // console.log(sample_val_int);
-        
-        var otu_ids_output_int = data_data.otu_ids.slice(0, 10);
-        // console.log('*********sample_otu_ids_outputval**************');
-        // console.log(otu_ids_output_int);
+        // //demographic
+        // // var meta_id = "";
+        // // demoInfo(meta_id);
+        // //Limit to 10
+        // var sample_val_int = data_data.map(row => row.sample_values.slice(0, 10)); 
+        // // console.log('*********sample_val**************');
+        // // console.log(sample_val);
     
-        // var otu_lab10 = data_data.map(row => row.otu_labels.slice(0, 10));
+        // var otu_ids_output_int = data_data.map(row => row.otu_ids.slice(0, 10));
+        // // console.log('*********sample_otu_ids_outputval**************');
+        // // console.log(otu_ids_output);
+    
+        // var otu_lab_int = data_data.map(row => row.otu_labels.slice(0, 10));
+        // // console.log('*********sample_otu_ids_outputval**************');
+        // // console.log(otu_ids_output);    
 
 
 
-        //Call the bar chart
-        barChart(sample_val_int, otu_ids_output_int);
+        // //Call the bar chart
+        // barChart(sample_val_int, otu_ids_output_int, otu_lab_int);
+
+        // //demographic
+        // var meta_id = meta.filter(filterData);
+        // demoInfo(meta_id);
     }   
     // }
-
+    
 
     //slim down selection
     
@@ -159,31 +193,6 @@ function list(dataNames){
     })
 }
 
-//Create a function to get the selected data
-// Update all of the plots any time that a new sample is selected.
-// On change to the DOM, call getData()
-function selected(){
-    d3.selectAll("#selDataset").on("change", getData); 
-    var check = getData()
-    return check; 
-
-}
-
-d3.selectAll("#selDataset").on("click", function() {
-
-    var check = selected();
-    // console.log(`click operator ${check}`);
-    dataSelected(check, 0);
-
-    // // remove the previous data        
-    // var list_remove = d3.select(".demograph");
-    // console.log(list_remove)
-    // // // remove any children from the list to
-    // list_remove.html("");
-
-    // return true;
-});
-
 
 function getData() {
     //Get the field selected
@@ -199,16 +208,13 @@ function getData() {
 
 
 //Create a function to display the bar chart
-//Use data based on the selected data
-// function barChart(barInfo){
-// function barChart(sample_val, otu_ids_output, otu_lab){
-function barChart(sample_val, otu_ids_output){   
+function barChart(sample_val, otu_ids_output, otu_lab){   
     //horizontal Bar chart
     //   // Trace1 for the lab Data
     var trace1 = {
         x: sample_val[0],
         y: otu_ids_output[0],
-        // text: otu_lab,
+        text: otu_lab,
         // name: "Greek",
         type: "bar",
         orientation: "h"
@@ -267,9 +273,10 @@ function bubbleChart(sample_val, otu_ids, label){
 
 //Create function to display the Demographic Info
 function demoInfo(dataNames){
-    console.log("************DemoInfo************")
+    // console.log("************DemoInfo************")
     // // Then, select the unordered list element by class name
-
+    var newPanel = d3.select("#sample-metadata");
+    newPanel.html("");
 
     console.log(dataNames)
     d3.select("#sample-metadata").selectAll("div")
@@ -278,6 +285,7 @@ function demoInfo(dataNames){
     .append("div")
     .classed("demograph", true)
     .style("font-size", "11px")
+    // console.log("**********add data back***********")
     .html(function(d) {
         // console.log(` dataInfo in Function: ${d[0].location}`);
         // console.log(` dataInfo in Function: ${d.age}`);
@@ -296,7 +304,13 @@ function demoInfo(dataNames){
     });
 };
 
-
+function optionChanged(newData) {
+    // buildChart(newSample);
+    // console.log("*****SampleData*********");
+    // console.log(newSample);
+    dataSelected(newData, 0);
+    // demoInfo(newSample);
+  }
 
 init()
 //Display each key-value pair from the metadata JSON object somewhere on the page.
